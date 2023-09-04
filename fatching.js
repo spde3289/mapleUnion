@@ -1,40 +1,42 @@
 const cheerio = require('cheerio');
 const axios = require("axios");
 
-const getHTML = async () => {
+const getHTML = async (echoMessage) => {
   try {
-    return await axios.get('https://maplestory.nexon.com/N23Ranking/World/Union?c=%EA%B3%B5%EB%8F%8C%EC%A7%80%EB%A0%81mk1&w=0')
+    return await axios.get(`https://maplestory.nexon.com/N23Ranking/World/Union?c=${echoMessage}&w=0`)
   } catch (error) {
     console.log(error);
   }
 }
 
 // 파싱
-const parsing = async () => {
+module.exports = {
+  parsing: async function(echoMessage){
 
-  const html = await getHTML();
+    const html = await getHTML(echoMessage);
 
-  const $ = cheerio.load(html.data);
+    const $ = cheerio.load(html.data);
 
-  const $trs = $(".search_com_chk");
-  /** 닉네임 */
-  const name = $trs.find("td > dl > dt").text(); 
-  /** 직업 */
-  const job = $trs.find("td > dl > dd").text(); 
-  /** 유니온 레벨 */
-  const union = $trs.find("td:nth-child(3)").text(); 
-  /** 유니온 전투력 */
-  const power = $trs.find("td:nth-child(4)").text(); 
+    const $trs = $(".search_com_chk");
+    /** 닉네임 */
+    const name = $trs.find("td > dl > dt").text();
+    /** 직업 */
+    const job = $trs.find("td > dl > dd").text();
+    /** 유니온 레벨 */
+    const union = $trs.find("td:nth-child(3)").text();
+    /** 유니온 전투력 */
+    const power = $trs.find("td:nth-child(4)").text();
+    let dataArr = {
+      name: name,
+      job: job,
+      union: union,
+      power: power
+    };
 
-  let dataArr = {
-    name: name,
-    job: job,
-    union: union,
-    power: power
-  };
+    if (name === "") {
+      return dataArr = null
+    }
 
-  console.log(dataArr);
-  return union
-}
-
-parsing()
+    return dataArr
+  }
+} 
