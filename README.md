@@ -10,14 +10,11 @@
 ## 개발 환경
 
 <div align="center">
-	<img src="https://img.shields.io/badge/node-007396?style=flat&logo=node&logoColor=white" />
-	<img src="https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=HTML5&logoColor=white" />
-	<img src="https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=CSS3&logoColor=white" />
+	<img src="https://img.shields.io/badge/node.js-339933?style=flat&logo=node.js&logoColor=white" />
+	<img src="https://img.shields.io/badge/axios-5A29E4?style=flat&logo=axios&logoColor=white" />
+	<img src="https://img.shields.io/badge/cheerio-1572B6?style=flat&logo=cheerio&logoColor=white" />
+	<img src="https://img.shields.io/badge/discord.js-1572B6?style=flat&logo=discord.js&logoColor=white" />
 </div>
-node.js 
-discord.js
-axios
-cheerio
 
 ## 주요기능 
 
