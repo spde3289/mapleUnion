@@ -5,19 +5,10 @@ const commands = [
   {
     name: "안녕",
     description: "인사입니다.",
-    options:[
-      {
-        required:true,
-        name:"인사말",
-        description: "인사말을 적어주세요",
-        type:ApplicationCommandOptionType.String
-      }
-    ],
     execute: async (_, interaction) => {
-      const echoMessage = (interaction.options.get("인사말")?.value || '');
       await interaction.followUp({
         ephemeral: true,
-        content: `${echoMessage}반가워`
+        content: `${interaction.user.globalName} 반가워`
       });
     }
   },
