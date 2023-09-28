@@ -1,17 +1,47 @@
-const { ApplicationCommandOptionType } = require('discord.js');
+const { ApplicationCommandOptionType, EmbedBuilder } = require('discord.js');
 const { parsing } = require('./fatching');
 
+const exampleEmbed = new EmbedBuilder()
+
+/* const exampleEmbed = {
+	color: 0x0099ff,
+	title: 'Some title',
+	description: 'Some description here',
+	fields: [
+		{
+			name: 'Regular field title',
+			value: 'Some value here',
+		},
+		{
+			name: '\u200b',
+			value: '\u200b',
+			inline: false,
+		},
+		{
+			name: 'Inline field title',
+			value: 'Some value here',
+			inline: true,
+		},
+		{
+			name: 'Inline field title',
+			value: 'Some value here',
+			inline: true,
+		},
+		{
+			name: 'Inline field title',
+			value: 'Some value here',
+			inline: true,
+		},
+	],
+
+	timestamp: new Date().toISOString(),
+	footer: {
+		text: 'Some footer text here',
+		icon_url: 'https://i.imgur.com/AfFp7pu.png',
+	},
+}; */
+
 const commands = [
-  {
-    name: "안녕",
-    description: "인사입니다.",
-    execute: async (_, interaction) => {
-      await interaction.followUp({
-        ephemeral: true,
-        content: `${interaction.user.globalName} 반가워`
-      });
-    }
-  },
   {
     name: "검색",
     description: "캐릭정보를 알려줍니다.",
@@ -26,16 +56,32 @@ const commands = [
     execute: async (_, interaction) => {
       const echoMessage = (interaction.options.get("닉네임")?.value || '');
       const data = await parsing(echoMessage);
-      let msg
+      let exampleEmbed
       if (data === null) {
         console.log(data);
         msg = `${echoMessage}일치하는 이름이 없습니다.`
       } else {
-        msg = `${data?.name}의 유니온 레벨은 ${data?.union}이고 전투력은${data?.power} 직업은 ${data?.job}입니다.`
+        exampleEmbed = {
+        title: data?.name,
+        fields: [
+          {
+            name: '[직업]',
+            value: data?.job
+          },
+          {
+            name: '[유니온 레벨]',
+            value: data?.union
+          },
+          {
+            name: '[유니온 전투력]',
+            value: data?.power
+          }
+        ]
+      };
       }
       await interaction.followUp({
         ephemeral: true,
-        content: msg
+        embeds: [exampleEmbed]
       });
     }
   }
