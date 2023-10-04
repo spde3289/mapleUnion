@@ -1,45 +1,7 @@
-const { ApplicationCommandOptionType, EmbedBuilder } = require('discord.js');
+const { ApplicationCommandOptionType } = require('discord.js');
 const { parsing } = require('./fatching');
 
-const exampleEmbed = new EmbedBuilder()
 
-/* const exampleEmbed = {
-	color: 0x0099ff,
-	title: 'Some title',
-	description: 'Some description here',
-	fields: [
-		{
-			name: 'Regular field title',
-			value: 'Some value here',
-		},
-		{
-			name: '\u200b',
-			value: '\u200b',
-			inline: false,
-		},
-		{
-			name: 'Inline field title',
-			value: 'Some value here',
-			inline: true,
-		},
-		{
-			name: 'Inline field title',
-			value: 'Some value here',
-			inline: true,
-		},
-		{
-			name: 'Inline field title',
-			value: 'Some value here',
-			inline: true,
-		},
-	],
-
-	timestamp: new Date().toISOString(),
-	footer: {
-		text: 'Some footer text here',
-		icon_url: 'https://i.imgur.com/AfFp7pu.png',
-	},
-}; */
 
 const commands = [
   {
@@ -61,8 +23,20 @@ const commands = [
         console.log(data);
         msg = `${echoMessage}일치하는 이름이 없습니다.`
       } else {
+        console.log(data?.charImg)
         exampleEmbed = {
-        title: data?.name,
+        author: {
+          name: echoMessage,
+          icon_url: data?.charImg,
+          url: data?.charImg,
+        },
+        data: {
+          image: {
+          URL: data?.charImg,
+          height: 200,
+          width: 200
+        },
+        },
         fields: [
           {
             name: '[직업]',

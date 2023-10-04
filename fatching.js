@@ -18,6 +18,8 @@ module.exports = {
     const $ = cheerio.load(html.data);
 
     const $trs = $(".search_com_chk");
+    /** 이미지 */
+    const charImg = $trs.find("td > .char_img > img:first-child").attr("src");
     /** 닉네임 */
     const name = $trs.find("td > dl > dt").text();
     /** 직업 */
@@ -27,6 +29,7 @@ module.exports = {
     /** 유니온 전투력 */
     const power = $trs.find("td:nth-child(4)").text();
     let dataArr = {
+      charImg: charImg,
       name: name,
       job: job,
       union: union,
