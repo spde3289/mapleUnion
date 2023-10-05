@@ -20,10 +20,9 @@ const commands = [
       const data = await parsing(echoMessage);
       let exampleEmbed
       if (data === null) {
-        console.log(data);
         msg = `${echoMessage}일치하는 이름이 없습니다.`
       } else {
-        console.log(data?.charImg)
+        console.log(data)
         exampleEmbed = {
         author: {
           name: echoMessage,
@@ -40,17 +39,37 @@ const commands = [
         fields: [
           {
             name: '[직업]',
-            value: data?.job
+            value: data?.job,
+          },
+          {
+            name: '[레벨]',
+            value: data?.lv,
+            inline: true
+          },
+          {
+            name: '[경험치]',
+            value: data?.exp,
+            inline: true
           },
           {
             name: '[유니온 레벨]',
-            value: data?.union
+            value: data?.union,
           },
           {
             name: '[유니온 전투력]',
-            value: data?.power
-          }
-        ]
+            value: data?.power,
+          },
+          {
+            name: '[인기도]',
+            value: data?.popularity,
+            inline: true
+          },
+          {
+            name: '[길드]',
+            value: data?.guild,
+            inline: true
+          },
+        ],
       };
       }
       await interaction.followUp({

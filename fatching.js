@@ -1,9 +1,17 @@
 const cheerio = require('cheerio');
 const axios = require("axios");
 
-const getHTML = async (echoMessage) => {
+const getUnionHTML = async (echoMessage) => {
   try {
     return await axios.get(`https://maplestory.nexon.com/N23Ranking/World/Union?c=${echoMessage}&w=0`)
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const getHTML = async (echoMessage) => {
+  try {
+    return await axios.get(`https://maplestory.nexon.com/N23Ranking/World/Pop?c=${echoMessage}&w=0`)
   } catch (error) {
     console.log(error);
   }
@@ -13,33 +21,50 @@ const getHTML = async (echoMessage) => {
 module.exports = {
   parsing: async function(echoMessage){
 
-    const html = await getHTML(echoMessage);
+  const Unionhtml = await getUnionHTML(echoMessage);
+  const html = await getHTML(echoMessage);
 
-    const $ = cheerio.load(html.data);
+  const $ = cheerio.load(Unionhtml.data);
+  const $$ = cheerio.load(html.data);
 
-    const $trs = $(".search_com_chk");
-    /** 이미지 */
-    const charImg = $trs.find("td > .char_img > img:first-child").attr("src");
-    /** 닉네임 */
-    const name = $trs.find("td > dl > dt").text();
-    /** 직업 */
-    const job = $trs.find("td > dl > dd").text();
-    /** 유니온 레벨 */
-    const union = $trs.find("td:nth-child(3)").text();
-    /** 유니온 전투력 */
-    const power = $trs.find("td:nth-child(4)").text();
-    let dataArr = {
-      charImg: charImg,
-      name: name,
-      job: job,
-      union: union,
-      power: power
-    };
+  const $trs = $(".search_com_chk");
+  /** 이미지 */
+  const charImg = $trs.find("td > .char_img > img:first-child").attr("src");
+  /** 닉네임 */
+  const name = $trs.find("td > dl > dt").text();
+  /** 직업 */
+  const job = $trs.find("td > dl > dd").text();
+  /** 유니온 레벨 */
+  const union = $trs.find("td:nth-child(3)").text();
+  /** 유니온 전투력 */
+  const power = $trs.find("td:nth-child(4)").text();
 
-    if (name === "") {
-      return dataArr = null
-    }
+  const $$trs = $$(".search_com_chk");
+  /** 레벨 */
+  const lv = $$trs.find("td:nth-child(3)").text();
+  /** 경험치 */
+  const exp = $$trs.find("td:nth-child(4)").text();
+  /** 인기도 */
+  const popularity = $$trs.find("td:nth-child(5)").text();
+  /** 길드 */
+  const guild = $$trs.find("td:nth-child(6)").text();
 
-    return dataArr
+  let dataArr = {
+    charImg: charImg, 
+    name: name,
+    job: job,
+    union: union,
+    power: power,
+    lv: lv,
+    exp: exp,
+    popularity: popularity,
+    guild: guild
+  };
+
+  if (name === "") {
+    return dataArr = null
+  }
+
+  return dataArr
   }
 } 
