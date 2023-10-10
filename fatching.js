@@ -1,5 +1,6 @@
 const cheerio = require('cheerio');
 const axios = require("axios");
+const { char } = require("./Product");
 
 const getUnionHTML = async (echoMessage) => {
   try {
@@ -21,50 +22,60 @@ const getHTML = async (echoMessage) => {
 module.exports = {
   parsing: async function(echoMessage){
 
-  const Unionhtml = await getUnionHTML(echoMessage);
-  const html = await getHTML(echoMessage);
+    let Unionhtml = await getUnionHTML(echoMessage);
+    let html = await getHTML(echoMessage);
 
-  const $ = cheerio.load(Unionhtml.data);
-  const $$ = cheerio.load(html.data);
+    let $ = cheerio.load(Unionhtml.data);
+    let $$ = cheerio.load(html.data);
+    let $trs = $(".search_com_chk");
+    /** 유니온 레벨 */
+    let union = $trs.find("td:nth-child(3)").text();
+    /** 유니온 전투력 */
+    let power = $trs.find("td:nth-child(4)").text();
+    
+    let $$trs = $$(".search_com_chk");
+    /** 닉네임 */
+    let severIcon = $$trs.find("td:nth-child(2)> dl img").attr("src");
+    /** 이미지 */
+    let charImg = $$trs.find(".char_img > img:nth-child(1)").attr("src");
+    /** 직업 */
+    let job = $$trs.find("td:nth-child(2) > dl > dd").text();
+    /** 레벨 */
+    let lv = $$trs.find("td:nth-child(3)").text();
+    /** 경험치 */
+    let exp = $$trs.find("td:nth-child(4)").text().replace(/,/g, "");
+    /** 인기도 */
+    let popularity = $$trs.find("td:nth-child(5)").text();
+    /** 길드 */
+    let guild = $$trs.find("td:nth-child(6)").text();
 
-  const $trs = $(".search_com_chk");
-  /** 이미지 */
-  const charImg = $trs.find("td > .char_img > img:first-child").attr("src");
-  /** 닉네임 */
-  const name = $trs.find("td > dl > dt").text();
-  /** 직업 */
-  const job = $trs.find("td > dl > dd").text();
-  /** 유니온 레벨 */
-  const union = $trs.find("td:nth-child(3)").text();
-  /** 유니온 전투력 */
-  const power = $trs.find("td:nth-child(4)").text();
+    char.map( (el) => {
+      if (el.lv === lv.replace("Lv.", "")) {
+        exp = ((exp/el.exp)*100).toFixed(3)
+      } 
+    })
 
-  const $$trs = $$(".search_com_chk");
-  /** 레벨 */
-  const lv = $$trs.find("td:nth-child(3)").text();
-  /** 경험치 */
-  const exp = $$trs.find("td:nth-child(4)").text();
-  /** 인기도 */
-  const popularity = $$trs.find("td:nth-child(5)").text();
-  /** 길드 */
-  const guild = $$trs.find("td:nth-child(6)").text();
+    if (union === "" && power === "") {
+      union = "대표캐릭터가 아닙니다."
+      power = "대표캐릭터가 아닙니다."
+    }
 
-  let dataArr = {
-    charImg: charImg, 
-    name: name,
-    job: job,
-    union: union,
-    power: power,
-    lv: lv,
-    exp: exp,
-    popularity: popularity,
-    guild: guild
-  };
+    let dataArr = {
+      charImg: charImg, 
+      severIcon: severIcon,
+      job: job,
+      union: union,
+      power: power,
+      lv: lv,
+      exp: exp,
+      popularity: popularity,
+      guild: guild
+    };
 
-  if (name === "") {
-    return dataArr = null
-  }
+    if ($$trs.html() === null) {
+      return dataArr = null
+    }
 
-  return dataArr
+    return dataArr
   }
 } 

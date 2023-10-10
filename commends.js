@@ -1,8 +1,6 @@
 const { ApplicationCommandOptionType } = require('discord.js');
 const { parsing } = require('./fatching');
 
-
-
 const commands = [
   {
     name: "검색",
@@ -19,58 +17,60 @@ const commands = [
       const echoMessage = (interaction.options.get("닉네임")?.value || '');
       const data = await parsing(echoMessage);
       let exampleEmbed
+
       if (data === null) {
-        msg = `${echoMessage}일치하는 이름이 없습니다.`
-      } else {
-        console.log(data)
         exampleEmbed = {
-        author: {
-          name: echoMessage,
-          icon_url: data?.charImg,
-          url: data?.charImg,
-        },
-        data: {
+          fields: [
+            {
+              name: `${echoMessage}일치하는 이름이 없습니다.`,
+              value: "다시 입력해주세요",
+            }
+          ],
+        }
+      } else {
+        exampleEmbed = {
+          author: {
+            name: echoMessage,
+            icon_url: data?.severIcon,
+          },
           image: {
-          URL: data?.charImg,
-          height: 200,
-          width: 200
-        },
-        },
-        fields: [
-          {
-            name: '[직업]',
-            value: data?.job,
+              URL: data?.charImg,
           },
-          {
-            name: '[레벨]',
-            value: data?.lv,
-            inline: true
-          },
-          {
-            name: '[경험치]',
-            value: data?.exp,
-            inline: true
-          },
-          {
-            name: '[유니온 레벨]',
-            value: data?.union,
-          },
-          {
-            name: '[유니온 전투력]',
-            value: data?.power,
-          },
-          {
-            name: '[인기도]',
-            value: data?.popularity,
-            inline: true
-          },
-          {
-            name: '[길드]',
-            value: data?.guild,
-            inline: true
-          },
-        ],
-      };
+          fields: [
+            {
+              name: '[직업]',
+              value: data?.job,
+            },
+            {
+              name: '[레벨]',
+              value: data?.lv,
+              inline: true
+            },
+            {
+              name: '[경험치]',
+              value: data?.exp + "%",
+              inline: true
+            },
+            {
+              name: '[유니온 레벨]',
+              value: "★" + data?.union,
+            }, 
+            {
+              name: '[유니온 전투력]',
+              value: data?.power,
+            },
+            {
+              name: '[인기도]',
+              value: data?.popularity,
+              inline: true
+            },
+            {
+              name: '[길드]',
+              value: data?.guild,
+              inline: true
+            },
+          ],
+        };
       }
       await interaction.followUp({
         ephemeral: true,
