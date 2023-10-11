@@ -34,7 +34,7 @@ const commands = [
             icon_url: data?.severIcon,
           },
           image: {
-              URL: data?.charImg,
+            URL: data?.charImg,
           },
           fields: [
             {

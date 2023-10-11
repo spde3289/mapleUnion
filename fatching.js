@@ -10,9 +10,17 @@ const getUnionHTML = async (echoMessage) => {
   }
 }
 
-const getHTML = async (echoMessage) => {
+const getNomalHTML = async (echoMessage) => {
   try {
-    return await axios.get(`https://maplestory.nexon.com/N23Ranking/World/Pop?c=${echoMessage}&w=0`)
+    return await axios.get(`https://maplestory.nexon.com/N23Ranking/World/Total?c=${echoMessage}&w=0`)
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const getRebootHTML = async (echoMessage) => {
+  try {
+    return await axios.get(`https://maplestory.nexon.com/N23Ranking/World/Total?c=${echoMessage}&w=254`)
   } catch (error) {
     console.log(error);
   }
@@ -22,22 +30,33 @@ const getHTML = async (echoMessage) => {
 module.exports = {
   parsing: async function(echoMessage){
 
-    let Unionhtml = await getUnionHTML(echoMessage);
-    let html = await getHTML(echoMessage);
+    let UnionHTML = await getUnionHTML(echoMessage);
 
-    let $ = cheerio.load(Unionhtml.data);
-    let $$ = cheerio.load(html.data);
+    let NomalHTML = await getNomalHTML(echoMessage);
+    let RebootHTML = await getRebootHTML(echoMessage);
+
+    
+    let $ = cheerio.load(UnionHTML.data);
+    let $$ = cheerio.load(NomalHTML.data);
+    /** 캐릭터 정보 */
     let $trs = $(".search_com_chk");
+    /** 캐릭터 정보 */
+    let $$trs = $$(".search_com_chk");
+
+    if ($$trs.html() === null) {
+      $$ = cheerio.load(RebootHTML.data);
+      $$trs = $$(".search_com_chk");
+    }
+
     /** 유니온 레벨 */
     let union = $trs.find("td:nth-child(3)").text();
     /** 유니온 전투력 */
     let power = $trs.find("td:nth-child(4)").text();
     
-    let $$trs = $$(".search_com_chk");
     /** 닉네임 */
     let severIcon = $$trs.find("td:nth-child(2)> dl img").attr("src");
     /** 이미지 */
-    let charImg = $$trs.find(".char_img > img:nth-child(1)").attr("src");
+    let charImg = $$trs.find(".char_img > img:nth-child(2)").attr("src");
     /** 직업 */
     let job = $$trs.find("td:nth-child(2) > dl > dd").text();
     /** 레벨 */
@@ -49,7 +68,7 @@ module.exports = {
     /** 길드 */
     let guild = $$trs.find("td:nth-child(6)").text();
 
-    char.map( (el) => {
+    char.map((el) => {
       if (el.lv === lv.replace("Lv.", "")) {
         exp = ((exp/el.exp)*100).toFixed(3)
       } 
