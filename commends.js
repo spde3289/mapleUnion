@@ -53,7 +53,7 @@ const commands = [
             },
             {
               name: '[유니온 레벨]',
-              value: "★" + data?.union,
+              value: data?.union,
             }, 
             {
               name: '[유니온 전투력]',

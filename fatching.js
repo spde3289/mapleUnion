@@ -1,6 +1,6 @@
 const cheerio = require('cheerio');
 const axios = require("axios");
-const { char } = require("./Product");
+const char = require('./product.json'); 
 
 const getUnionHTML = async (echoMessage) => {
   try {
@@ -56,7 +56,7 @@ module.exports = {
     /** 닉네임 */
     let severIcon = $$trs.find("td:nth-child(2)> dl img").attr("src");
     /** 이미지 */
-    let charImg = $$trs.find(".char_img > img:nth-child(2)").attr("src");
+    let charImg = $$trs.find(".char_img > img:nth-child(1)").attr("src");
     /** 직업 */
     let job = $$trs.find("td:nth-child(2) > dl > dd").text();
     /** 레벨 */
@@ -73,6 +73,10 @@ module.exports = {
         exp = ((exp/el.exp)*100).toFixed(3)
       } 
     })
+
+    if (guild === "") {
+      guild = "가입된 길드가 없습니다."
+    }
 
     if (union === "" && power === "") {
       union = "대표캐릭터가 아닙니다."
