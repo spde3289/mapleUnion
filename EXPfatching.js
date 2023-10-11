@@ -1,5 +1,6 @@
 const cheerio = require('cheerio');
 const axios = require("axios");
+const fs = require("fs");
 
 const getHTML = async () => {
   try {
@@ -20,53 +21,53 @@ const parsing = async() => {
   const $$trs = $("table:nth(2) > tbody > tr");
   const $$$trs = $("table:nth(3) > tbody > tr");
 
+  const json = []
+
   await $trs.each( async (_, tag) => {
-    /* console.log($(tag).find, i) */
-    let lv = $(tag).find("td:nth(0)").text()
-    let exp = $(tag).find("td:nth(1)").text()
-
+    let lv = $(tag).find("td:nth(0)").text().split(" ")[0]
+    let exp = $(tag).find("td:nth(1)").text().replace(/,/g, "").split("[")[0]
     if (lv && exp) {
-
-      var json = 
-      {
-        lv: lv.split(" ")[0],
-        exp: exp.replace(/,/g, "").split("[")[0]
+      if (!isNaN(+lv)) {
+        json.push( 
+          {
+            lv: lv,
+            exp: exp
+          }) 
       }
-      
     }
-    console.log(json)
   })
 
   await $$trs.each( async (_, tag) => {
     /* console.log($(tag).find, i) */
-    let lv = $(tag).find("td:nth(0)").text()
-    let exp = $(tag).find("td:nth(1)").text()
-
+    let lv = $(tag).find("td:nth(0)").text().split(" ")[0]
+    let exp = $(tag).find("td:nth(1)").text().replace(/,/g, "").split("[")[0]
     if (lv && exp) {
-
-      var json = 
-      {
-        lv: lv.split(" ")[0],
-        exp: exp.replace(/,/g, "").split("[")[0]
+      if (!isNaN(+lv)) {
+        json.push( 
+          {
+            lv: lv,
+            exp: exp
+          }) 
       }
-      
     }
-    console.log(json)
   })
 
   await $$$trs.each( async (_, tag) => {
-    let lv = $(tag).find("td:nth(0)").text()
-    let exp = $(tag).find("td:nth(1)").text()
-
-    if ((lv && exp)) {
-
-      var json = {
-        lv: lv.split(" ")[0],
-        exp: exp.replace(/,/g, "").split("[")[0]
+    let lv = $(tag).find("td:nth(0)").text().split(" ")[0]
+    let exp = $(tag).find("td:nth(1)").text().replace(/,/g, "").split("[")[0]
+    if (lv && exp) {
+      if (!isNaN(+lv)) {
+        json.push( 
+          {
+            lv: lv,
+            exp: exp
+          }) 
       }
     }
-    console.log(json)
   })
+
+  const stringJson = JSON.stringify(json)
+  fs.writeFileSync("product.json", stringJson)
 
 }
 
