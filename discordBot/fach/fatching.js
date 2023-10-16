@@ -1,6 +1,6 @@
 const cheerio = require('cheerio');
 const axios = require("axios");
-const char = require('./product.json'); 
+const char = require('../../product.json'); 
 
 const getUnionHTML = async (echoMessage) => {
   try {
