@@ -1,6 +1,7 @@
 const { ApplicationCommandOptionType } = require('discord.js');
-const { parsing } = require('../fach/fatching');
 const { searchChar } = require('./searchChar')
+const { boss } = require('./Boss/boss')
+const bossList = require('./Boss/bossList.json')
 
 const commands = [
   {
@@ -14,7 +15,22 @@ const commands = [
         type:ApplicationCommandOptionType.String
       }
     ],
+    
     execute: searchChar()
+  },
+  {
+    name: "보스",
+    description: "주간/월간 보스의 정보를 알려줍니다.",
+    options:[
+      {
+        required:true,
+        name:"보스",
+        description: "보스를 선택해주세요",
+        type: ApplicationCommandOptionType.String,
+        choices: bossList
+      }
+    ],
+    execute: boss()
   },
 ];
 

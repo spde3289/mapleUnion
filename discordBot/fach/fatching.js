@@ -1,6 +1,6 @@
 const cheerio = require('cheerio');
 const axios = require("axios");
-const char = require('../../product.json'); 
+const EXP = require('../../EXP.json'); 
 
 const getUnionHTML = async (echoMessage) => {
   try {
@@ -29,13 +29,10 @@ const getRebootHTML = async (echoMessage) => {
 // 파싱
 module.exports = {
   parsing: async function(echoMessage){
-
     let UnionHTML = await getUnionHTML(echoMessage);
-
     let NomalHTML = await getNomalHTML(echoMessage);
     let RebootHTML = await getRebootHTML(echoMessage);
 
-    
     let $ = cheerio.load(UnionHTML.data);
     let $$ = cheerio.load(NomalHTML.data);
     /** 캐릭터 정보 */
@@ -68,7 +65,7 @@ module.exports = {
     /** 길드 */
     let guild = $$trs.find("td:nth-child(6)").text();
 
-    char.map((el) => {
+    EXP.map((el) => {
       if (el.lv === lv.replace("Lv.", "")) {
         exp = ((exp/el.exp)*100).toFixed(3)
       } 

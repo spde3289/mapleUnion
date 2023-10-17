@@ -3,10 +3,10 @@ const { parsing } = require('../fach/fatching');
 const searchChar = () => async (_, interaction) => {
   const echoMessage = (interaction.options.get("닉네임")?.value || '');
   const data = await parsing(echoMessage);
-  let exampleEmbed
+  let Embed
 
   if (data === null) {
-    exampleEmbed = {
+    Embed = {
       fields: [
         {
           name: `${echoMessage}일치하는 이름이 없습니다.`,
@@ -15,7 +15,7 @@ const searchChar = () => async (_, interaction) => {
       ],
     }
   } else {
-    exampleEmbed = {
+    Embed = {
       author: {
         name: echoMessage,
         icon_url: data?.severIcon,
@@ -59,9 +59,10 @@ const searchChar = () => async (_, interaction) => {
       ],
     };
   }
-  await interaction.followUp({
+  /* await interaction.deferReply() */
+  await interaction.editReply({
     ephemeral: true,
-    embeds: [exampleEmbed]
+    embeds: [Embed]
   });
 }
 
