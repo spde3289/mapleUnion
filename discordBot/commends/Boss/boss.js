@@ -5,17 +5,17 @@ const boss = () => async (_, interaction) => {
 
   let fields = []
 
-  let str = `**`
+  let str = ``
 
   bossInfo.map(el => {
     if (el.name === currentBoss) {
       el.mode.map(property => {
-        for (const value in property) str += `${property[value]} \n`
+        for (const value in property) str += `> ${property[value]} \n`
         fields.push({
           name: "",
           value: str,
         })
-        str = `** ` 
+        str = `` 
       })
     }
   })
