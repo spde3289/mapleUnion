@@ -19,6 +19,8 @@ settings.json
 token.json
 .idea
 .DS_Store
+*.pem
+*.ppk
 *.suo
 *.ntvs*
 *.njsproj
