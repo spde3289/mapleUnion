@@ -1,5 +1,6 @@
 const cheerio = require('cheerio');
 const axios = require("axios");
+const fs = require("fs");
 const EXP = require('../../EXP.json'); 
 
 const getUnionHTML = async (echoMessage) => {
@@ -94,6 +95,11 @@ module.exports = {
 
     if ($$trs.html() === null) {
       return dataArr = null
+    } else {
+      const imgResult = await axios.get(charImg, {	//이미지 주소 result.img를 요청
+        responseType: 'arraybuffer',	//buffer가 연속적으로 들어있는 자료 구조를 받아온다
+      });
+      fs.writeFileSync("./discordBot/commends/searchChar/assets/charImg.png", imgResult.data);
     }
 
     return dataArr

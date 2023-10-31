@@ -1,5 +1,5 @@
 const { ApplicationCommandOptionType } = require('discord.js');
-const { searchChar } = require('./searchChar')
+const { searchChar } = require('./searchChar/searchChar')
 const { boss } = require('./Boss/boss')
 const bossList = require('./Boss/bossList.json')
 

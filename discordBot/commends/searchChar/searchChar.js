@@ -1,15 +1,21 @@
-const { parsing } = require('../fach/fatching');
+const { AttachmentBuilder } = require('discord.js');
+const { parsing } = require('../../fach/fatching');
 
 const searchChar = () => async (_, interaction) => {
   const echoMessage = (interaction.options.get("닉네임")?.value || '');
   const data = await parsing(echoMessage);
-  let Embed
+  
+  let file = new AttachmentBuilder('./discordBot/commends/searchChar/assets/charImg.png');
 
   if (data === null) {
+    file = new AttachmentBuilder('./discordBot/commends/searchChar/assets/no_char_img.png');
     Embed = {
+      image: {
+        url: "attachment://no_char_img.png",
+      },
       fields: [
         {
-          name: `${echoMessage}일치하는 이름이 없습니다.`,
+          name: `${echoMessage} 일치하는 이름이 없습니다.`,
           value: "다시 입력해주세요",
         }
       ],
@@ -21,7 +27,7 @@ const searchChar = () => async (_, interaction) => {
         icon_url: data?.severIcon,
       },
       image: {
-        URL: data?.charImg,
+        url: "attachment://charImg.png",
       },
       fields: [
         {
@@ -59,11 +65,12 @@ const searchChar = () => async (_, interaction) => {
       ],
     };
   }
-  /* await interaction.deferReply() */
+
   await interaction.editReply({
     ephemeral: true,
-    embeds: [Embed]
-  });
+    files: [file],
+    embeds: [Embed],
+  }).catch(console.error);
 }
 
 module.exports = {
