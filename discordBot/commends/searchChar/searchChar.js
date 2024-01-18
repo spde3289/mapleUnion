@@ -1,9 +1,27 @@
 const { AttachmentBuilder } = require('discord.js');
 const { parsing } = require('../../fach/fatching');
 
+/* 
+{
+  "date": "2023-12-21T00:00+09:00",
+  "character_name": "공돌지렁mk1",
+  "world_name": "리부트",
+  "character_gender": "남",
+  "character_class": "제논",
+  "character_class_level": "6",
+  "character_level": 277,
+  "character_exp": 13600191703645,
+  "character_exp_rate": "98.793",
+  "character_guild_name": "별을삼킨고래",
+  "character_image": "https://open.api.nexon.com/static/maplestory/Character/FMEFEDOEFGIOICPNMJCMLALEAJDFJNPHNMCIFLLOCKBCEFLEGGOPDIMEDPBMECHDMHALFPCFFAKIGJFLNIKBAHBKGLOPJJKPKINHLCKPCDALGKDFBCGDACHKCAJKLGKMIIIALNGMPBDGPCJNJLEPIAPGGLKHKLGPIGLFFPFCNCNDCKMILOKDGDFNJJKOANPKOKLPPHKDNDINAAHMJINMOINPKJDOEHKDOBGFEJLFAADBPLFJHLIHGNIBKMIBFDKK.png"
+}
+*/
+
+
 const searchChar = () => async (_, interaction) => {
   const echoMessage = (interaction.options.get("닉네임")?.value || '');
   const data = await parsing(echoMessage);
+  
   
   let file = new AttachmentBuilder('./discordBot/commends/searchChar/assets/charImg.png');
 

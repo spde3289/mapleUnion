@@ -3,6 +3,13 @@ const axios = require("axios");
 const fs = require("fs");
 const EXP = require('../../EXP.json'); 
 
+const getOcid = async (charName) => {
+  try {
+    return await axios.get(`https://open.api.nexon.com/maplestory/v1/id?character_name=${charName}`)
+  } catch (error) {
+    console.log(error)
+  }
+}
 const getUnionHTML = async (echoMessage) => {
   try {
     return await axios.get(`https://maplestory.nexon.com/N23Ranking/World/Union?c=${echoMessage}&w=0`)
