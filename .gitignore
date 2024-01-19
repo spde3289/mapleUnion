@@ -17,6 +17,7 @@ dist-ssr
 !.vscode/extensions.json
 settings.json
 token.json
+apiKey.json
 .idea
 .DS_Store
 *.pem
