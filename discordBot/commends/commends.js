@@ -1,6 +1,7 @@
 const { ApplicationCommandOptionType } = require('discord.js');
 const { searchChar } = require('./searchChar/searchChar')
 const { boss } = require('./Boss/boss')
+const { gild } = require("./gild/gild");
 const bossList = require('./Boss/bossList.json')
 
 const commands = [
@@ -31,6 +32,19 @@ const commands = [
       }
     ],
     execute: boss()
+  },
+  {
+    name: "길드",
+    description: "길드 정보를 알려줍니다.",
+    options:[
+      {
+        required:true,
+        name:"길드",
+        description: "길드명을 적어주세요",
+        type: ApplicationCommandOptionType.String,
+      }
+    ],
+    execute: gild()
   },
 ];
 
