@@ -1,42 +1,41 @@
-const cheerio = require('cheerio');
+const cheerio = require("cheerio");
 const axios = require("axios");
 const fs = require("fs");
-const EXP = require('../../EXP.json'); 
+const EXP = require("../../EXP.json");
 
-const getOcid = async (charName) => {
-  try {
-    return await axios.get(`https://open.api.nexon.com/maplestory/v1/id?character_name=${charName}`)
-  } catch (error) {
-    console.log(error)
-  }
-}
 const getUnionHTML = async (echoMessage) => {
   try {
-    return await axios.get(`https://maplestory.nexon.com/N23Ranking/World/Union?c=${echoMessage}&w=0`)
+    return await axios.get(
+      `https://maplestory.nexon.com/N23Ranking/World/Union?c=${echoMessage}&w=0`
+    );
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 const getNomalHTML = async (echoMessage) => {
   try {
-    return await axios.get(`https://maplestory.nexon.com/N23Ranking/World/Total?c=${echoMessage}&w=0`)
+    return await axios.get(
+      `https://maplestory.nexon.com/N23Ranking/World/Total?c=${echoMessage}&w=0`
+    );
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 const getRebootHTML = async (echoMessage) => {
   try {
-    return await axios.get(`https://maplestory.nexon.com/N23Ranking/World/Total?c=${echoMessage}&w=254`)
+    return await axios.get(
+      `https://maplestory.nexon.com/N23Ranking/World/Total?c=${echoMessage}&w=254`
+    );
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 // 파싱
 module.exports = {
-  parsing: async function(echoMessage){
+  parsing: async function (echoMessage) {
     let UnionHTML = await getUnionHTML(echoMessage);
     let NomalHTML = await getNomalHTML(echoMessage);
     let RebootHTML = await getRebootHTML(echoMessage);
@@ -57,7 +56,7 @@ module.exports = {
     let union = $trs.find("td:nth-child(3)").text();
     /** 유니온 전투력 */
     let power = $trs.find("td:nth-child(4)").text();
-    
+
     /** 닉네임 */
     let severIcon = $$trs.find("td:nth-child(2)> dl img").attr("src");
     /** 이미지 */
@@ -75,21 +74,21 @@ module.exports = {
 
     EXP.map((el) => {
       if (el.lv === lv.replace("Lv.", "")) {
-        exp = ((exp/el.exp)*100).toFixed(3)
-      } 
-    })
+        exp = ((exp / el.exp) * 100).toFixed(3);
+      }
+    });
 
     if (guild === "") {
-      guild = "가입된 길드가 없습니다."
+      guild = "가입된 길드가 없습니다.";
     }
 
     if (union === "" && power === "") {
-      union = "대표캐릭터가 아닙니다."
-      power = "대표캐릭터가 아닙니다."
+      union = "대표캐릭터가 아닙니다.";
+      power = "대표캐릭터가 아닙니다.";
     }
 
     let dataArr = {
-      charImg: charImg, 
+      charImg: charImg,
       severIcon: severIcon,
       job: job,
       union: union,
@@ -97,18 +96,22 @@ module.exports = {
       lv: lv,
       exp: exp,
       popularity: popularity,
-      guild: guild
+      guild: guild,
     };
 
     if ($$trs.html() === null) {
-      return dataArr = null
+      return (dataArr = null);
     } else {
-      const imgResult = await axios.get(charImg, {	//이미지 주소 result.img를 요청
-        responseType: 'arraybuffer',	//buffer가 연속적으로 들어있는 자료 구조를 받아온다
+      const imgResult = await axios.get(charImg, {
+        //이미지 주소 result.img를 요청
+        responseType: "arraybuffer", //buffer가 연속적으로 들어있는 자료 구조를 받아온다
       });
-      fs.writeFileSync("./discordBot/commends/searchChar/assets/charImg.png", imgResult.data);
+      fs.writeFileSync(
+        "./discordBot/commends/searchChar/assets/charImg.png",
+        imgResult.data
+      );
     }
 
-    return dataArr
-  }
-} 
+    return dataArr;
+  },
+};
