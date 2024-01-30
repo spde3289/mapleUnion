@@ -24,7 +24,6 @@ const commands = [
         choices: dateList,
       },
     ],
-
     execute: searchChar(),
   },
   {

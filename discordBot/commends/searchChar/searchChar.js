@@ -1,10 +1,12 @@
 const { AttachmentBuilder } = require('discord.js');
 const { parsing } = require('../../fach/fatching');
+const { selenium } = require('../../fach/exchangeStats')
 
 const searchChar = () => async (_, interaction) => {
-  const echoMessage = (interaction.options.get("닉네임")?.value || '');
-  const data = await parsing(echoMessage);
-  
+  const name = (interaction.options.get("닉네임")?.value || '');
+  const date = interaction.options.get("날짜")?.value || "";
+  const data = await parsing(name);
+  await selenium(name, date);
   
   let file = new AttachmentBuilder('./discordBot/commends/searchChar/assets/charImg.png');
 
@@ -16,7 +18,7 @@ const searchChar = () => async (_, interaction) => {
       },
       fields: [
         {
-          name: `${echoMessage} 일치하는 이름이 없습니다.`,
+          name: `${name} 일치하는 이름이 없습니다.`,
           value: "다시 입력해주세요",
         }
       ],
@@ -24,7 +26,7 @@ const searchChar = () => async (_, interaction) => {
   } else {
     Embed = {
       author: {
-        name: echoMessage,
+        name: name,
         icon_url: data?.severIcon,
       },
       image: {
