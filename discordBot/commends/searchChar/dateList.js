@@ -14,10 +14,8 @@ const setDate = (i) => {
 };
 
 for (let i = 1; i <= 11; i++) {
-  console.log(i);
   setDate(i);
 }
-console.log(dateList);
 
 module.exports = {
   dateList: dateList,
