@@ -1,5 +1,13 @@
 const setExchangeStatus = (arr, index) => {
-  for (let i = index; i <= index + 6; i++) console.log(`${i} ` + arr[i]);
+  const fields = [];
+
+  for (let i = index; i <= index + 6; i++){
+    fields.push(`${i} ` + arr[i]);
+
+  }
+
+  return fields
+
 };
 
 module.exports = {

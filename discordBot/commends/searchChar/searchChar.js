@@ -1,12 +1,13 @@
 const { AttachmentBuilder } = require('discord.js');
 const { parsing } = require('../../fach/fatching');
-const { selenium } = require('../../fach/exchangeStats')
+const { selenium } = require('../../selenium/exchangeStats')
 
 const searchChar = () => async (_, interaction) => {
   const name = (interaction.options.get("닉네임")?.value || '');
   const date = interaction.options.get("날짜")?.value || "";
   const data = await parsing(name);
-  await selenium(name, date);
+  const { StatusFields, arr } = await selenium(name, date);
+  console.log(StatusFields, arr);
   
   let file = new AttachmentBuilder('./discordBot/commends/searchChar/assets/charImg.png');
 
@@ -52,10 +53,6 @@ const searchChar = () => async (_, interaction) => {
           value: data?.union,
         }, 
         {
-          name: '[유니온 전투력]',
-          value: data?.power,
-        },
-        {
           name: '[인기도]',
           value: data?.popularity,
           inline: true
@@ -67,13 +64,57 @@ const searchChar = () => async (_, interaction) => {
         },
       ],
     };
+    StatsEmbed = {
+      fields: [
+        {
+          name: `<< ${arr[8]} >>`,
+          value: "",
+        },
+        {
+          name: arr[10],
+          value: arr[9],
+          inline: true,
+        },
+        {
+          name: arr[12],
+          value: arr[11],
+          inline: true,
+        },
+        {
+          name: arr[14],
+          value: arr[13],
+          inline: true,
+        },
+        {
+          name: `<< ${arr[15]} >>`,
+          value: "",
+        },
+        {
+          name: arr[17],
+          value: arr[16],
+          inline: true,
+        },
+        {
+          name: arr[19],
+          value: arr[18],
+          inline: true,
+        },
+        {
+          name: arr[21],
+          value: arr[20],
+          inline: true,
+        },
+      ],
+    };
   }
 
-  await interaction.editReply({
-    ephemeral: true,
-    files: [file],
-    embeds: [Embed],
-  }).catch(console.error);
+  await interaction
+    .editReply({
+      ephemeral: true,
+      files: [file],
+      embeds: [Embed, StatsEmbed],
+    })
+    .catch(console.error);
 }
 
 module.exports = {

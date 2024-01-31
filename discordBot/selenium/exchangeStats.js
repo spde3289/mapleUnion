@@ -8,18 +8,26 @@ const selenium = async (charName, date) => {
     await driver.get(
       `https://maplescouter.com/info?name=${charName}&date=${date}`
     );
-
-    let s = await driver.findElement(
+    /* let ExchangeStatusFields */
+    let StatusFields = [];
+    let Html = await driver.findElement(
       By.className("flex gap-[20px] mo:flex-col")
     );
-    let ss = await s.getText();
+    let Text = await Html.getText();
 
-    const arr = ss.split("\n");
+    const arr = Text.split("\n");
 
-    ss.split("\n").filter((el, index) => {
-      if (list.includes(el)) setExchangeStatus(arr, index);
+    Text.split("\n").filter((el, index) => {
+      if (list.includes(el)) {
+        // ExchangeStatusFields = setExchangeStatus(arr, index);
+        StatusFields.push(setExchangeStatus(arr, index));
+      }
     });
-
+    console.log(StatusFields);
+    return {
+      StatusFields: StatusFields,
+      arr: arr,
+    };
   } finally {
     await driver.quit();
   }
