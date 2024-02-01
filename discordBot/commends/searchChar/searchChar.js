@@ -6,8 +6,7 @@ const searchChar = () => async (_, interaction) => {
   const name = (interaction.options.get("닉네임")?.value || '');
   const date = interaction.options.get("날짜")?.value || "";
   const data = await parsing(name);
-  const { StatusFields, arr } = await selenium(name, date);
-  console.log(StatusFields, arr);
+  // const { StatusFields, arr } = await selenium(name, date);
   
   let file = new AttachmentBuilder('./discordBot/commends/searchChar/assets/charImg.png');
 
@@ -67,11 +66,15 @@ const searchChar = () => async (_, interaction) => {
     StatsEmbed = {
       fields: [
         {
-          name: `<< ${arr[8]} >>`,
+          name: `${name}의 환산 주스텟`,
+          value: `환산 주스텟은 [여기](https://maplescouter.com/info?name=${name}&date=${date})`,
+        },
+        /* {
+          name: `<< ${arr[8]} >>`, // 환산
           value: "",
         },
         {
-          name: arr[10],
+          name: arr[10], //무릉
           value: arr[9],
           inline: true,
         },
@@ -103,7 +106,7 @@ const searchChar = () => async (_, interaction) => {
           name: arr[21],
           value: arr[20],
           inline: true,
-        },
+        }, */
       ],
     };
   }
