@@ -1,6 +1,6 @@
 const { AttachmentBuilder } = require('discord.js');
 const { parsing } = require('../../fach/fatching');
-const { selenium } = require('../../selenium/exchangeStats')
+// const { selenium } = require('../../selenium/exchangeStats')
 
 const searchChar = () => async (_, interaction) => {
   const name = (interaction.options.get("닉네임")?.value || '');
@@ -74,36 +74,36 @@ const searchChar = () => async (_, interaction) => {
           value: "",
         },
         {
-          name: arr[10], //무릉
+          name: arr[10], // 무릉
           value: arr[9],
           inline: true,
         },
         {
-          name: arr[12],
+          name: arr[12], // 보스 300
           value: arr[11],
           inline: true,
         },
         {
-          name: arr[14],
+          name: arr[14], // 보스 380
           value: arr[13],
           inline: true,
         },
         {
-          name: `<< ${arr[15]} >>`,
+          name: `<< ${arr[15]} >>`, // 헥사환산
           value: "",
         },
         {
-          name: arr[17],
+          name: arr[17], // 무릉
           value: arr[16],
           inline: true,
         },
         {
-          name: arr[19],
+          name: arr[19], // 보스 300
           value: arr[18],
           inline: true,
         },
         {
-          name: arr[21],
+          name: arr[21], // 보스380
           value: arr[20],
           inline: true,
         }, */
