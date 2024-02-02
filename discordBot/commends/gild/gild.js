@@ -15,8 +15,6 @@ const getgild = async (name) => {
   }
 };
 
-/* const a = getOcid("드누다"); */
-
 const getGildInfo = async (name) => {
   try {
     let d = new Date();
