@@ -4,7 +4,7 @@ const { parsing } = require("../../fach/fatching");
 
 const searchChar = () => async (_, interaction) => {
   const name = interaction.options.get("닉네임")?.value || "";
-  const date = interaction.options.get("날짜")?.value || "";
+  // const date = interaction.options.get("날짜")?.value || "";
   const data = await parsing(name);
   // const { ExchangeField } = await selenium(name, date);
 
@@ -71,7 +71,7 @@ const searchChar = () => async (_, interaction) => {
       fields: [
         {
           name: `${name}의 환산 주스텟`,
-          value: `환산 주스텟은 [여기](https://maplescouter.com/info?name=${name}&date=${date})`,
+          value: `환산 주스텟은 [여기](https://maplescouter.com/info?name=${name})`,
         },
       ],
     };

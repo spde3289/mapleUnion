@@ -2,7 +2,7 @@ const { ApplicationCommandOptionType } = require("discord.js");
 const { searchChar } = require("./searchChar/searchChar");
 const { boss } = require("./Boss/boss");
 const { gild } = require("./gild/gild");
-const { dateList } = require("../commends/searchChar/dateList");
+// const { dateList } = require("../commends/searchChar/dateList");
 const bossList = require("./Boss/bossList.json");
 
 const commands = [
@@ -15,13 +15,6 @@ const commands = [
         name: "닉네임",
         description: "닉네임을 적어주세요",
         type: ApplicationCommandOptionType.String,
-      },
-      {
-        required: true,
-        name: "날짜",
-        description: "닉네임을 적어주세요",
-        type: ApplicationCommandOptionType.String,
-        choices: dateList,
       },
     ],
     execute: searchChar(),
