@@ -1,40 +1,39 @@
-const bossInfo = require("../../data/bossInfo.json")
+const bossInfo = require("../../data/bossInfo.json");
 
 const boss = () => async (_, interaction) => {
-  const currentBoss = (interaction.options.get("보스")?.value || '');
+  const currentBoss = interaction.options.get("보스")?.value || "";
 
-  let fields = []
+  let fields = [];
 
-  let str = ``
+  let str = ``;
 
-  bossInfo.map(el => {
+  bossInfo.map((el) => {
     if (el.name === currentBoss) {
-      el.mode.map(property => {
-        for (const value in property) str += `> ${property[value]} \n`
+      el.mode.map((property) => {
+        for (const value in property) str += `> ${property[value]} \n`;
         fields.push({
           name: "",
           value: str,
-        })
-        str = `` 
-      })
+        });
+        str = ``;
+      });
     }
-  })
+  });
 
   let Embed = {
-    color: 0x0099FF,
+    color: 0x0099ff,
     author: {
       name: currentBoss,
     },
-    fields: fields
-
-  }
+    fields: fields,
+  };
 
   await interaction.editReply({
     ephemeral: true,
-    embeds: [Embed]
+    embeds: [Embed],
   });
-}
+};
 
 module.exports = {
-  boss: boss
-}
+  boss: boss,
+};
