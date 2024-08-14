@@ -3,7 +3,7 @@ const { searchChar } = require("./searchChar/searchChar");
 const { boss } = require("./Boss/boss");
 const { gild } = require("./gild/gild");
 // const { dateList } = require("../commends/searchChar/dateList");
-const bossList = require("./Boss/bossList.json");
+const bossList = require("../data/bossList.json");
 
 const commands = [
   {

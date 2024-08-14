@@ -1,4 +1,4 @@
-const bossInfo = require("./bossInfo.json")
+const bossInfo = require("../../data/bossInfo.json")
 
 const boss = () => async (_, interaction) => {
   const currentBoss = (interaction.options.get("보스")?.value || '');
